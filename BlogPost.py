@@ -2,6 +2,9 @@ import sqlite3
 from sqlite3 import Error
 import logging
 import re
+import os
+import os.path
+import errno
 
 
 class BlogPostApp:
@@ -11,6 +14,14 @@ class BlogPostApp:
         self.log = logging.getLogger(__name__)
 
     def setup_logging(self, file, level_in='WARNING', formatter='%(asctime)s - %(name)s - %(levelname)s - %(message)s'):
+        try:
+            os.makedirs(os.path.dirname(file))
+        except OSError as logging_error:
+            if logging_error.errno == errno.EEXIST and os.path.isdir(os.path.dirname(file)):
+                pass
+            else:
+                raise
+
         if not self.log.hasHandlers():
             log_handler = logging.FileHandler(file)
 
@@ -24,7 +35,7 @@ class BlogPostApp:
     def connect_database(self, file):
         """ create a database connection to the SQLite database specified by file """
         try:
-            self.conn = sqlite3.connect(file)
+            self.conn = sqlite3.connect(file, check_same_thread=False)
             self.log.info(f'connected to database {file}')
         except Error as connection_error:
             self.log.error(f'{connection_error}')

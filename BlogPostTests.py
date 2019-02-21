@@ -8,11 +8,11 @@ class BlogPostTest(unittest.TestCase):
     def setUp(self):
         config = configparser.ConfigParser(strict=False, interpolation=None)
         config.read('BlogPost.ini')
-        database_file = config['Files']['database_file']
+        database_file = config['Database']['file']
 
         self.blog_post_app = BlogPostApp()
 
-        logging_file = config['Files']['log_file']
+        logging_file = config['Logging']['file']
         logging_format = config['Logging']['format']
         logging_level = config['Logging']['level']
 
