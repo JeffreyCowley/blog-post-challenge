@@ -1,53 +1,68 @@
-# Blog Post API Assignment
+# Deployment
 
-Hello!
+## Manual steps for windows
+* Requires git, python 3+, and pip to be in system path 
 
-This repository contains everything that you need to complete your assignment.
+`> git clone "http://github.com/JeffreyCowley/blog-post-challenge"`
 
-Please take this seriously, because we do!  We carefully assess every assignment that is
-turned in to determine if you have the qualities that we're looking for at NWEA.
+`> cd blog-post-challenge`
 
-# The Assignment
+`> python -m venv env`
 
-You are a DevOps engineer.  Your boss has requested that you build a blog post API.
-You have been given a database schema by the DBA team that you will need to use to insert information into a SQLite database.
-Create a repository on Github (do *not* fork this one) and add the code necessary to provide an API that will write single posts to the
-database and retrieve a list of all posts from the database.  You should include a copy of the database in your repository.
-It ought to work "out of the box".
+`> env\Scripts\activate.bat`
 
-# Requirements
+`> pip install -r requirements.txt`
 
-1. You *must* use a scripting language (i.e., Perl, Python, Ruby, Go, Java, Node)
-2. Shell scripting is *not* allowed for the assignment (i.e., Bash, Ksh, Zsh)
-3. Your solution *must* be easily deployable and include a well documented process to do so.
-4. Your solution *must* be checked into Github.  Do *not* submit a pull request to this repository.  Send us a link to *your* repository.
-5. Please show your work.  We want to see multiple commits and see how you approached the problem.
+`> python BlogPostAPI.py`
 
-# API Implementation
+## Manual steps for linux
+* CentOS 7
+* Requires git, python 3+, and pip to be in system path 
 
-You will need to implement 2 API endpoints for this assignment.
+If python 3.6 is not already installed
+use the next line to install python 3.6
 
-1. An endpoint for POSTing a single blog post
-  * Endpoint *must* be `/post`
-  * Method *must* be `POST`
-  * Content of the `POST` *must* be the `title` and `body` of the post
-2. An endpoint for GETing all blog posts
-  * Endpoint *must* be `/posts`
-  * Method *must* be `GET`
-  * There should be no content sent (this is a GET request)
-  * Content received *must* be the `post_id`, `title`, and `body` of all posts in an array
+`$ sudo yum install python36 python36-pip`
 
-All data exchanged with the API *must* be in JSON format.
+`$ git clone "http://github.com/JeffreyCowley/blog-post-challenge"`
 
-# Included in the Repository
+`$ cd blog-post-challenge`
 
-You will find a file called `blog.db` in the repository.  It is a SQLite database file and already includes the table you need for persisting blog post data.
+`$ pip3.6 install virtualenv`
 
-When the API is used to POST a blog post it should be written to the database.  When a GET is called the API should retrieve all entries from the database.
+`$ virtualenv env`
 
-# Last Words
+`$ source env/bin/activate`
 
-Have fun!  If you don't like doing this assignment you probably won't like working here.  We like to code and we do a lot of automation.
+`$ pip3.6 install -r requirements.txt`
 
-We're looking forward to seeing your API in action!
+`$ python3.6 BlogPostAPI.py &` 
 
+
+
+# Configuraton File
+
+`[Database]`
+
+`file=blog.db`
+* If file is not found service will fail to start
+
+`[Logging]`
+
+`file=log/BlogPostApp.log` 
+
+* Path will attempt to be created, if file can't be created or is empty turns logging off
+
+`format=%(asctime)s %(levelname)s - %(module)s - %(message)s`
+
+* Defaults to '%(asctime)s - %(name)s - %(levelname)s - %(message)s' if not supplied 
+
+`level=DEBUG`
+
+* Defaults to 'WARNING' if not a valid logging level
+
+
+`[API]`
+
+`port=5051`
+ * defaults to 5000
